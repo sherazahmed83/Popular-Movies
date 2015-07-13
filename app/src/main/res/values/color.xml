@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#FFFFFF</color>
+    <color name="grey">#cccccc</color>
+    <color name="grey_700">#646464</color>
+    <color name="black">#000000</color>
+
+    <color name="starFullySelected">#FF2A21</color>
+    <color name="starPartiallySelected">#FF2A21</color>
+    <color name="starNotSelected">#369A96</color>
+
+    <color name="favorite_not_selected">#86E4DB</color>
+    <color name="favorite_selected">#FF2A21</color>
+    <color name="text_favorite_not_selected">#767676</color>
+    <color name="text_favorite_selected">#FFFFFF</color>
+</resources>

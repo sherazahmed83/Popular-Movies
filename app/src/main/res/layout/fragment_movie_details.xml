@@ -1,0 +1,204 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/background_imageView"
+            android:layout_height="250dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:gravity="left">
+
+                <ImageView
+                    android:id="@+id/movie_image"
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:paddingTop="20dp"
+                    android:src="@mipmap/ic_launcher"
+                    android:layout_gravity="left" />
+
+                <TextView
+                    android:id="@+id/movie_name"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chappie"
+                    android:editable="false"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textIsSelectable="false"
+                    android:textColor="#ffffffff"
+                    android:paddingLeft="10dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="20dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+            <RatingBar
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="0.5"
+                android:id="@+id/detail_ratings"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp" />
+
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:gravity="left"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="left"
+                android:weightSum="1"
+                android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_my_calendar"
+                android:layout_marginLeft="30dp" />
+
+            <TextView
+                android:fontFamily="sans-serif-light"
+                android:id="@+id/detail_year"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="12dp"
+                android:text="2015-06-12"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp" />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/button_favorite"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:text="@string/label_text_button_favorite"
+                android:background="#86E4DB"
+                android:textColor="#767676"
+                android:textSize="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="140dp"
+                />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:fontFamily="sans-serif-light"
+            android:id="@+id/detail_overview"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="13dp"
+            android:text="Every child comes into the world full of promise, and none more less than Chappie: he is gifted, special, a prodigy. Chappie he is a robot."
+            android:textStyle="bold"
+            android:textColor="#767676"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp" />
+
+        <TextView
+            android:fontFamily="sans-serif-light"
+            android:id="@+id/detail_label_trailers"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="17dp"
+            android:text="@string/label_text_view_trailers"
+            android:textStyle="bold"
+            android:textColor="#767676"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+       >
+
+        <ListView
+            android:id="@+id/listview_trailers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/listview_trailers_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:fontFamily="sans-serif-light"
+            android:id="@+id/detail_label_reviews"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="17dp"
+            android:text="@string/label_text_view_reviews"
+            android:textStyle="bold"
+            android:textColor="#767676"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp" />
+
+        <ListView
+            android:id="@+id/listview_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/listview_reviews_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="italic" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</ScrollView>
