@@ -154,21 +154,35 @@ public class MovieDetailsActivityFragment extends Fragment  implements LoaderMan
         mMovieOverviewView = (TextView) rootView.findViewById(R.id.detail_overview);
 
         if (data != null) {
-            new LoadBackground(Utility.getImageURL(data[0]), "androidImage").execute();
-            Picasso.with(mContext).load(Utility.getImageURL(data[1])).into(mMovieImageView);
-            mMovieYearView.setText(data[2]);
-//            mMovieTimeView.setText(data[3] + "min");
 
-            mMovieRatingsView.setRating(Float.valueOf(data[4]) / 2f);
+            String backdropPath = data[0];
+            String posterPath   = data[1];
+            String dateValue    = data[2];
+            String ratings      = data[4];
+            String overview     = data[5];
+            String movieName    = data[6];
+            String movieIdStr   = data[7];
 
-            if (data[5] == null || data[5].equals("null")) {
+            if (backdropPath != null || !backdropPath.equals("null")) {
+                new LoadBackground(Utility.getImageURL(backdropPath), "androidImage").execute();
+            }
+
+            Picasso.with(mContext).load(Utility.getImageURL(posterPath)).error(R.drawable.no_image_available).into(mMovieImageView);
+            if (dateValue == null || dateValue.equals("null")) {
+                mMovieYearView.setText(getString(R.string.label_text_view_no_date));
+            } else {
+                mMovieYearView.setText(dateValue);
+            }
+            mMovieRatingsView.setRating(Float.valueOf(ratings) / 2f);
+
+            if (overview == null || overview.equals("null")) {
                 mMovieOverviewView.setText(getString(R.string.label_text_view_no_overview));
             } else {
                 mMovieOverviewView.setText(data[5]);
             }
 
-            mMovieNameView.setText(data[6]);
-            movieId = Integer.valueOf(data[7]);
+            mMovieNameView.setText(movieName);
+            movieId = Integer.valueOf(movieIdStr);
         }
 
         mMovieTrailersListView.setAdapter(mTrailersListAdapter);

@@ -43,8 +43,8 @@ public class GridViewMoviesAdapter extends
         if (posterPath == null) {
             posterPath = cursor.getString(MainActivityFragment.COL_BACK_DROP_PATH);
         }
-
-        Picasso.with(context).load(Utility.getImageURL(posterPath)).into(viewHolder.imageView);
+        
+        Picasso.with(context).load(Utility.getImageURL(posterPath)).error(R.drawable.no_image_available).into(viewHolder.imageView);
     }
 
 
