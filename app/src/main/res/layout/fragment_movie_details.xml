@@ -1,50 +1,67 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:scrollbarStyle="outsideOverlay">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="1">
 
-        <LinearLayout
-            android:id="@+id/background_imageView"
-            android:layout_height="250dp"
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_detail"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@android:color/darker_gray"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_collapseMode="pin"/>
 
 
-            <LinearLayout
-                android:layout_height="wrap_content"
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="fitXY"
+                app:layout_collapseMode="pin"
+                android:id="@+id/background_imageView"
+                android:minHeight="100dp"/>
+
+            <ImageView
+                android:id="@+id/movie_image"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:paddingTop="20dp"
+                android:layout_gravity="left"
+                app:layout_collapseMode="pin"/>
+
+            <TextView
+                android:id="@+id/movie_name"
+                android:fontFamily="sans-serif-light"
                 android:layout_width="wrap_content"
-                android:orientation="vertical"
-                android:gravity="left">
-
-                <ImageView
-                    android:id="@+id/movie_image"
-                    android:layout_width="170dp"
-                    android:layout_height="170dp"
-                    android:paddingTop="20dp"
-                    android:layout_gravity="left" />
-
-                <TextView
-                    android:id="@+id/movie_name"
-                    android:fontFamily="sans-serif-light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:editable="false"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
-                    android:textIsSelectable="false"
-                    android:textColor="#ffffffff"
-                    android:paddingLeft="10dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginLeft="20dp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textIsSelectable="false"
+                android:textColor="#ffffff"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="200dp"
+                android:layout_marginLeft="20dp"
+                app:layout_collapseMode="pin"/>
+        </android.support.design.widget.CollapsingToolbarLayout>
 
             <RatingBar
                 style="?android:attr/ratingBarStyleSmall"
@@ -149,7 +166,8 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:fastScrollEnabled="false"/>
 
         <TextView
             android:id="@+id/listview_trailers_empty"
@@ -181,7 +199,8 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:fastScrollEnabled="false"/>
 
         <TextView
             android:id="@+id/listview_reviews_empty"

@@ -6,22 +6,22 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -32,10 +32,6 @@ import com.popularmovies.app.adapter.CustomTrailersListAdapter;
 import com.popularmovies.app.data.PopularMoviesContract;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -48,7 +44,7 @@ public class MovieDetailsActivityFragment extends Fragment  implements LoaderMan
 
     private final String LOG_TAG = MovieDetailsActivityFragment.class.getSimpleName();
 
-    private LinearLayout mBackgroundImageView   = null;
+    private ImageView mBackgroundImageView   = null;
     private TextView mMovieNameView     = null;
     private ImageView mMovieImageView   = null;
     private TextView mMovieYearView     = null;
@@ -70,6 +66,7 @@ public class MovieDetailsActivityFragment extends Fragment  implements LoaderMan
     private static final int MOVIE_TRAILER_LOADER = 0;
     private static final int MOVIE_REVIEW_LOADER = 1;
     private boolean mTwoPane;
+    private Toast mFavoriteToast;
 
     public static final String[] MOVIE_TRAILER_COLUMNS = {
             PopularMoviesContract.MovieTrailerEntry.TABLE_NAME + "." + PopularMoviesContract.MovieTrailerEntry._ID,
@@ -121,6 +118,9 @@ public class MovieDetailsActivityFragment extends Fragment  implements LoaderMan
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_movie_details, container, false);
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar_detail);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
         mContext = container.getContext();
         mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
@@ -134,7 +134,7 @@ public class MovieDetailsActivityFragment extends Fragment  implements LoaderMan
         mReviewsListAdapter    = new CustomReviewsListAdapter(getActivity(), null, 0);
 
         mMovieNameView         = (TextView) rootView.findViewById(R.id.movie_name);
-        mBackgroundImageView   = (LinearLayout) rootView.findViewById(R.id.background_imageView);
+        mBackgroundImageView   = (ImageView) rootView.findViewById(R.id.background_imageView);
         mMovieImageView        = (ImageView) rootView.findViewById(R.id.movie_image);
         mMovieYearView         = (TextView) rootView.findViewById(R.id.detail_year);
         mMovieRatingsView      = (RatingBar) rootView.findViewById(R.id.detail_ratings);
@@ -164,7 +164,7 @@ public class MovieDetailsActivityFragment extends Fragment  implements LoaderMan
             String movieIdStr   = data[7];
 
             if (backdropPath != null || !backdropPath.equals("null")) {
-                new LoadBackground(Utility.getImageURL(backdropPath), "androidImage").execute();
+                Picasso.with(mContext).load(Utility.getImageURL(backdropPath)).error(R.drawable.no_image_available).into(mBackgroundImageView);
             }
 
             Picasso.with(mContext).load(Utility.getImageURL(posterPath)).error(R.drawable.no_image_available).into(mMovieImageView);
@@ -183,6 +183,11 @@ public class MovieDetailsActivityFragment extends Fragment  implements LoaderMan
 
             mMovieNameView.setText(movieName);
             movieId = Integer.valueOf(movieIdStr);
+
+            CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
+            collapsingToolbarLayout.setTitle(movieName);
+            collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.white));
+
         }
 
         mMovieTrailersListView.setAdapter(mTrailersListAdapter);
@@ -281,48 +286,6 @@ public class MovieDetailsActivityFragment extends Fragment  implements LoaderMan
                 break;
         }
     }
-    private class LoadBackground extends AsyncTask<String, Void, Drawable> {
-
-        private String imageUrl , imageName;
-
-        public LoadBackground(String url, String file_name) {
-            this.imageUrl = url;
-            this.imageName = file_name;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Drawable doInBackground(String... urls) {
-
-            try {
-                InputStream is = (InputStream) this.fetch(this.imageUrl);
-                Drawable d = Drawable.createFromStream(is, this.imageName);
-                return d;
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                return null;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-        private Object fetch(String address) throws MalformedURLException,IOException {
-            URL url = new URL(address);
-            Object content = url.getContent();
-            return content;
-        }
-
-        @SuppressWarnings("deprecation")
-        @Override
-        protected void onPostExecute(Drawable result) {
-            super.onPostExecute(result);
-            mBackgroundImageView.setBackgroundDrawable(result);
-        }
-    }
 
     @Override
     public void onClick(View v) {
@@ -359,7 +322,13 @@ public class MovieDetailsActivityFragment extends Fragment  implements LoaderMan
             textColorId = R.color.text_favorite_selected;
         }
 
-        Toast.makeText(mContext, getString(labelId), Toast.LENGTH_SHORT).show();
+        if (mFavoriteToast != null) {
+            mFavoriteToast.cancel();
+        }
+
+        mFavoriteToast = Toast.makeText(mContext, getString(labelId), Toast.LENGTH_SHORT);
+
+        mFavoriteToast.show();
         mFavoriteButton.setBackgroundColor(getResources().getColor(backgroundColorId));
         mFavoriteButton.setTextColor(getResources().getColor(textColorId));
 

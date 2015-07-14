@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.popularmovies.app.adapter.GridViewMoviesAdapter;
 import com.popularmovies.app.data.PopularMoviesContract;
@@ -76,6 +77,9 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
         // initialize the GridView
         GridView gridView = (GridView) rootView.findViewById(R.id.gridView);
+        TextView emptyTextView = (TextView) rootView.findViewById(R.id.gridView_empty);
+        emptyTextView.setText(getString(R.string.label_text_view_no_movies_as_favorite));
+        gridView.setEmptyView(emptyTextView);
         gridView.setAdapter(mGridViewMoviesAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -105,8 +109,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                 ((Callback) getActivity()).onItemSelected(data);
             }
         });
-
-        onSortOrderChanged();
 
         return rootView;
     }

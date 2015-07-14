@@ -68,6 +68,8 @@ public class MovieDataLoader {
             mMovieIds = loadMovieData();
         }
 
+        if (mMovieIds == null || mMovieIds.length == 0) return;
+
         FetchMovieTrailersDataTask trailersDataTask = new FetchMovieTrailersDataTask();
         trailersDataTask.execute();
 
@@ -278,6 +280,8 @@ public class MovieDataLoader {
 //                http://api.themoviedb.org/3/movie/31413?api_key=28edec251247e1d7328ab3ec7f483cd0
                 final String MOVIES_BASE_URL = "http://api.themoviedb.org/3/movie";
                 final String API_KEY_PARAM = "api_key";
+
+                if (mMovieIds == null || mMovieIds.length == 0) return;
 
                 for (int i = 0; i < mMovieIds.length; i++) {
 

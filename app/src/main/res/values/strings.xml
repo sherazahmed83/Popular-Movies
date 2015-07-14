@@ -14,6 +14,7 @@
     <string name="label_movie_marked_not_favorite">This movie is removed from your Favorites.</string>
     <string name="label_text_view_no_overview">No overview details available for this movie.</string>
     <string name="label_text_view_no_date">No date available.</string>
+    <string name="label_text_view_no_movies_as_favorite">No movies being selected as Favorite by you.</string>
 
     <string name="sync_account_type">popularmovies.com</string>
     <string name="content_authority">com.popularmovies.app</string>
