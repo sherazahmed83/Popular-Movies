@@ -75,5 +75,8 @@ public class Utility {
         mListView.requestLayout();
     }
 
+    public static boolean isStringEmpty(String string) {
+        return (string == null || string.equals("null") || string.equals(""));
+    }
 
 }

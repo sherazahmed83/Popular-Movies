@@ -141,17 +141,13 @@ public class MovieDetailsActivityFragment extends Fragment  implements LoaderMan
         mMovieTrailersListView = (ListView) rootView.findViewById(R.id.listview_trailers);
         mMovieReviewsListView  = (ListView) rootView.findViewById(R.id.listview_reviews);
         mFavoriteButton        = (Button) rootView.findViewById(R.id.button_favorite);
+        mMovieOverviewView = (TextView) rootView.findViewById(R.id.detail_overview);
 
         // empty views for ListViews
         mTrailersEmptyView = (TextView) rootView.findViewById(R.id.listview_trailers_empty);
         mReviewsEmptyView      = (TextView) rootView.findViewById(R.id.listview_reviews_empty);
 
-        LayerDrawable stars = (LayerDrawable) mMovieRatingsView.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(getResources().getColor(R.color.starFullySelected), PorterDuff.Mode.SRC_ATOP);
-        stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.starPartiallySelected), PorterDuff.Mode.SRC_ATOP);
-        stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.starNotSelected), PorterDuff.Mode.SRC_ATOP);
-
-        mMovieOverviewView = (TextView) rootView.findViewById(R.id.detail_overview);
+        fixRatingsViewColorScheme();
 
         if (data != null) {
 
@@ -163,24 +159,25 @@ public class MovieDetailsActivityFragment extends Fragment  implements LoaderMan
             String movieName    = data[6];
             String movieIdStr   = data[7];
 
-            if (backdropPath != null || !backdropPath.equals("null")) {
+            if (!Utility.isStringEmpty(backdropPath)) {
                 Picasso.with(mContext).load(Utility.getImageURL(backdropPath)).error(R.drawable.no_image_available).into(mBackgroundImageView);
             }
 
             Picasso.with(mContext).load(Utility.getImageURL(posterPath)).error(R.drawable.no_image_available).into(mMovieImageView);
-            if (dateValue == null || dateValue.equals("null")) {
+
+            if (Utility.isStringEmpty(dateValue)) {
                 mMovieYearView.setText(getString(R.string.label_text_view_no_date));
             } else {
                 mMovieYearView.setText(dateValue);
             }
-            mMovieRatingsView.setRating(Float.valueOf(ratings) / 2f);
 
-            if (overview == null || overview.equals("null")) {
+            if (Utility.isStringEmpty(overview)) {
                 mMovieOverviewView.setText(getString(R.string.label_text_view_no_overview));
             } else {
-                mMovieOverviewView.setText(data[5]);
+                mMovieOverviewView.setText(overview);
             }
 
+            mMovieRatingsView.setRating(Float.valueOf(ratings) / 2f);
             mMovieNameView.setText(movieName);
             movieId = Integer.valueOf(movieIdStr);
 
@@ -188,7 +185,7 @@ public class MovieDetailsActivityFragment extends Fragment  implements LoaderMan
             collapsingToolbarLayout.setTitle(movieName);
             collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.white));
 
-        }
+        } // end of data if
 
         mMovieTrailersListView.setAdapter(mTrailersListAdapter);
         mMovieReviewsListView.setAdapter(mReviewsListAdapter);
@@ -225,6 +222,13 @@ public class MovieDetailsActivityFragment extends Fragment  implements LoaderMan
         }
 
         return rootView;
+    }
+
+    private void fixRatingsViewColorScheme() {
+        LayerDrawable stars = (LayerDrawable) mMovieRatingsView.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(getResources().getColor(R.color.starFullySelected), PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(getResources().getColor(R.color.starPartiallySelected), PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(0).setColorFilter(getResources().getColor(R.color.starNotSelected), PorterDuff.Mode.SRC_ATOP);
     }
 
     @Override
